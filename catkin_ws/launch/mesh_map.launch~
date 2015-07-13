@@ -1,0 +1,12 @@
+<launch>
+	<group ns = "mesh_map">
+		<node pkg = "mesh_map" type = "mesh_map" name = "mesh_map" output = "screen"/>
+
+
+		
+
+
+		<node pkg = "rviz" type = "rviz" name = "rviz"/>
+	</group>
+
+</launch>
