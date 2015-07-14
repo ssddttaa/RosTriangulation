@@ -7,16 +7,21 @@
 void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg) {
     sensor_msgs::PointCloud PointCloudMessage = *msg;
     int arrayLength = PointCloudMessage.points.size();
-    //ROS_INFO("getting cloud data points");
+    //Creating ID Map. Each point has a unique ID which the ID Map stores. From there, to retrieve the ID, we just get it by index.
     for(int i = 0;i<arrayLength;i++)
     {
+      //Gets the current point from the point cloud
       vector<float> tempVec;
       tempVec.push_back((float)(PointCloudMessage.points[i].x));
       tempVec.push_back((float)(PointCloudMessage.points[i].y));
       tempVec.push_back((float)(PointCloudMessage.points[i].z));
+      
+      //Get the id of the current point cloud point
       int currentID = PointCloudMessage.channels[0].values[i];
       
+      //Searches through the ID map for the id.
       int getIndexOfID = find(IDMap.begin(), IDMap.end(), currentID) - IDMap.begin();
+      //If the id is greater than or equal to the size of hte IDMpa
       if(getIndexOfID>=IDMap.size())
       {
 	IDMap.push_back(currentID);
@@ -65,24 +70,6 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg) {
       isStaticMap.at(i) +=1;
     }
   }
-  
-void printEverything()
-{
-  for(int i = 0;i<Current_Points.size();i++)
-  {
-    vector<float> tempVec = Current_Points.at(i);
-    ROS_INFO("ID:%i, Current Point:(%f, %f, %f))",i,tempVec.at(0),tempVec.at(1), tempVec.at(2));
-  }
-  for(int i= 0;i<IDMap.size(); i++)
-  {
-    ROS_INFO("Mapped point id: %i, to id: %i",IDMap.at(i), i); 
-  }
-  for(int i= 0;i<All_Points.size(); i++)
-  {
-    vector<float> tempVec = All_Points.at(i);
-    ROS_INFO("ID:%i, All Point:(%f, %f, %f))",i,tempVec.at(0),tempVec.at(1), tempVec.at(2));
-  }
-}
 void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurrentPoints)
 {
      vector<geometry_msgs::Point> linePointsToDraw;
@@ -94,7 +81,7 @@ void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurre
      
      visualization_msgs::Marker line_list;
      
-     
+     //BEGINNING OF REGULAR LINE LIST
      line_list.header.stamp = ros::Time::now();
      
      line_list.ns = "mesh_map";
@@ -112,13 +99,13 @@ void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurre
        line_list.color.r = 0.0;
        line_list.color.g = 0.0;
        line_list.color.b = 1.0;
-       line_list.scale.x = .05;
-       line_list.scale.y = .05;
-       line_list.scale.z = .05;
+       line_list.scale.x = .005;
+       line_list.scale.y = .005;
+       line_list.scale.z = .005;
        
        line_list.pose.orientation.w = 1.0;
-       
-       //BEGINNING OF COLOR LINE LIST
+       //END OF REGULAR LINE LIST
+     //BEGINNING OF COLOR LINE LIST
        visualization_msgs::Marker static_line_list;
      
      static_line_list.header.stamp = ros::Time::now();
@@ -136,18 +123,51 @@ void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurre
      static_line_list.lifetime = ros::Duration(1);
             static_line_list.color.a = 1.0;
        static_line_list.color.r = 0.0;
-//        static_line_list.color.g = 1.0;
+        static_line_list.color.g = 1.0;
        static_line_list.color.b = 0.0;
-       static_line_list.scale.x = .05;
-       static_line_list.scale.y = .05;
-       static_line_list.scale.z = .05;
+       static_line_list.scale.x = .005;
+       static_line_list.scale.y = .005;
+       static_line_list.scale.z = .005;
        
-       static_line_list.pose.orientation.w = 1.0;
+       static_line_list.pose.orientation.w = static_line_list.pose.orientation.x = static_line_list.pose.orientation.y = static_line_list.pose.orientation.z = 0.0;
+       //END OF COLOR LINE LIST
+     //BEGINNING OF TRIANGLE LIST
+       visualization_msgs::Marker triangle_list;
+     
+     triangle_list.header.stamp = ros::Time::now();
+     
+     triangle_list.ns = "mesh_map";
+     
+     triangle_list.header.frame_id = "/world";
+     
+     triangle_list.action = visualization_msgs::Marker::ADD;
+     
+     triangle_list.id = 2;
+     
+     triangle_list.type = visualization_msgs::Marker::TRIANGLE_LIST;
+     
+     triangle_list.lifetime = ros::Duration(1);
+            triangle_list.color.a = 1.0;
+       triangle_list.color.r = 1.0;
+        triangle_list.color.g = 0.0;
+       triangle_list.color.b = 0.0;
+       triangle_list.scale.x = 1.0;
+       triangle_list.scale.y = 1.0;
+       triangle_list.scale.z = 1.0;
+       
+       triangle_list.pose.orientation.w = triangle_list.pose.orientation.x = triangle_list.pose.orientation.y = triangle_list.pose.orientation.z = 0.0;
+       //END OF TRIANGLE LIST
      for(int i = 0; i<linePointsToDraw.size();i++)
      {
        geometry_msgs::Point currentPoint = linePointsToDraw.at(i);
+       std_msgs::ColorRGBA c;
+	c.a = 1.0;
+	c.r = currentPoint.x;
+	c.g = currentPoint.y;
+	c.b = currentPoint.z;
        if(!(abs(currentPoint.x) >boundingBoxMax|| abs(currentPoint.y) >boundingBoxMax|| abs(currentPoint.z)>boundingBoxMax))
        {
+	 line_list.colors.push_back(c);
 	 line_list.points.push_back(currentPoint);
        }
      }
@@ -160,9 +180,34 @@ void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurre
 	 static_line_list.points.push_back(currentPoint);
        }
      }
+     
+     for(int i = 0; i<TriangulatedPoints.size()/3;i++)
+     {
+       vector<float> trianglePointsTemp;
+       trianglePointsTemp.push_back(TriangulatedPoints.at(i*3));
+       trianglePointsTemp.push_back(TriangulatedPoints.at((i*3)+1));
+       trianglePointsTemp.push_back(TriangulatedPoints.at((i*3)+2));
+       geometry_msgs::Point currentPoint;
+       currentPoint.x = trianglePointsTemp.at(0);
+       currentPoint.y = trianglePointsTemp.at(1);
+       currentPoint.z = trianglePointsTemp.at(2);
+       std_msgs::ColorRGBA tempColor;
+       tempColor.a = 1.0;
+       tempColor.r = currentPoint.x;
+       tempColor.g = currentPoint.y;
+       tempColor.b = currentPoint.z;
+       if(!(abs(currentPoint.x) >boundingBoxMax|| abs(currentPoint.y) >boundingBoxMax|| abs(currentPoint.z)>boundingBoxMax))
+       {
+	 triangle_list.points.push_back(currentPoint);
+	 triangle_list.colors.push_back(tempColor);
+       }
+     }
+     
+     
      marker_array.markers.resize(2);
      marker_array.markers[0] = line_list;
      marker_array.markers[1] = static_line_list;
+     //marker_array.markers[2] = triangle_list;
      marker_pub.publish(marker_array);     
 }
 
@@ -183,7 +228,9 @@ void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePoint
     p3.x = TriangulatedPoints.at((i*9)+6);
     p3.y = TriangulatedPoints.at((i*9)+7);
     p3.z = TriangulatedPoints.at((i*9)+8);
-    
+    //ROS_INFO("TRIANGLE POINT:(%f, %f, %f)", p1.x, p1.y, p1.z);
+    //ROS_INFO("TRIANGLE POINT:(%f, %f, %f)", p2.x, p2.y, p2.z);
+     //ROS_INFO("TRIANGLE POINT:(%f, %f, %f)", p3.x, p3.y, p3.z);
     bool staticPoint1, staticPoint2, staticPoint3;
     staticPoint1 = staticPoint2 = staticPoint3 = true;
     for(int j = 0 ;j<tempCurrentPoints->size();j++)
@@ -193,6 +240,7 @@ void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePoint
       current_point.x = Current_Point.at(0);
       current_point.y = Current_Point.at(1);
       current_point.z = Current_Point.at(2);
+      
 
       if(p1.x == current_point.x && p1.y == current_point.y && p1.z == current_point.z)
       {
@@ -250,6 +298,8 @@ void loadLaunchParameters(ros::NodeHandle nh_)
   XmlRpc::XmlRpcValue v;
   ros::param::get("/mesh_map/bounding_box", v);
   boundingBoxMax = (int)(v);
+  ros::param::get("/mesh_map/static_frames_threshold", v);
+  staticFramesThreshold = (int)(v);
 }
 int main(int argc, char** argv) {
   ros::init(argc, argv, "mesh_map");

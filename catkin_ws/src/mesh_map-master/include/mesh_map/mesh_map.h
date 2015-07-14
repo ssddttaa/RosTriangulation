@@ -40,7 +40,7 @@ int deletedPoints(0);
 int clangs(0);
 int finds(0);
 
-int staticFramesThreshold(2);
+int staticFramesThreshold(20);
 bool firstPointSet = true;
 int boundingBoxMax;
 

@@ -24,6 +24,7 @@
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef CGAL::Delaunay_triangulation_3<K>      Triangulation;
+typedef CGAL:Delaunay_triangulation_2<K>       Triangulation_2;
 typedef Triangulation::Cell_handle    Cell_handle;
 typedef Triangulation::Vertex_handle  Vertex_handle;
 typedef Triangulation::Locate_type    Locate_type;
