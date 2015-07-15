@@ -16,7 +16,7 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg) {
       tempVec.push_back((float)(PointCloudMessage.points[i].y));
       tempVec.push_back((float)(PointCloudMessage.points[i].z));
       
-      //Get the id of the current point cloud point
+//       //Get the id of the current point cloud point
       int currentID = PointCloudMessage.channels[0].values[i];
       
       //Searches through the ID map for the id.
@@ -62,6 +62,12 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg) {
     }
     if(!firstPointSet&&staticPointsToAdd.size()>0)
     {
+      numberOfPointsInTriangulation += staticPointsToAdd.size();
+      recalculateMean(&staticPointsToAdd);
+      for(int i = 0;i<staticPointsToAdd.size();i++)
+      {
+	staticPointsToAdd.at(i).at(0) = currentXMean;
+      }
       triangulation.addPointsToTriangulation(&staticPointsToAdd, staticPointsToAdd.size());
       RVIZPublisher(marker_pub, &tempCurrentPoints);
     }
@@ -70,6 +76,16 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg) {
       isStaticMap.at(i) +=1;
     }
   }
+void recalculateMean(vector<vector<float> > *staticPoints)
+{
+  float previousSum = currentXMean*(numberOfPointsInTriangulation-staticPoints->size());
+  for(int i = 0;i<staticPoints->size();i++)
+  {
+    previousSum+=staticPoints->at(i).at(0);
+  }
+  currentXMean = (previousSum/numberOfPointsInTriangulation);
+  
+}
 void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurrentPoints)
 {
      vector<geometry_msgs::Point> linePointsToDraw;
@@ -213,82 +229,19 @@ void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurre
 
 void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePointsToDraw, vector<geometry_msgs::Point> *staticPointsToDraw, vector<vector<float> > * tempCurrentPoints)
 {
-  for(int i = 0 ;i<TriangulatedPoints.size()/9;i++)
+  //ROS_INFO("before conversion yo");
+  for(int i = 0 ;i<TriangulatedPoints.size()/2;i++)
   {
     geometry_msgs::Point p1, p2, p3;
     
-    p1.x = TriangulatedPoints.at(i*9);
-    p1.y = TriangulatedPoints.at((i*9)+1);
-    p1.z = TriangulatedPoints.at((i*9)+2);
+    p1.x = currentXMean;
+    p1.y = TriangulatedPoints.at(i*2);
+    p1.z = TriangulatedPoints.at((i*2)+1);
     
-    p2.x = TriangulatedPoints.at((i*9)+3);
-    p2.y = TriangulatedPoints.at((i*9)+4);
-    p2.z = TriangulatedPoints.at((i*9)+5);
+    linePointsToDraw->push_back(p1);
     
-    p3.x = TriangulatedPoints.at((i*9)+6);
-    p3.y = TriangulatedPoints.at((i*9)+7);
-    p3.z = TriangulatedPoints.at((i*9)+8);
-    //ROS_INFO("TRIANGLE POINT:(%f, %f, %f)", p1.x, p1.y, p1.z);
-    //ROS_INFO("TRIANGLE POINT:(%f, %f, %f)", p2.x, p2.y, p2.z);
-     //ROS_INFO("TRIANGLE POINT:(%f, %f, %f)", p3.x, p3.y, p3.z);
-    bool staticPoint1, staticPoint2, staticPoint3;
-    staticPoint1 = staticPoint2 = staticPoint3 = true;
-    for(int j = 0 ;j<tempCurrentPoints->size();j++)
-    {
-      vector<float> Current_Point(tempCurrentPoints->at(j));
-      geometry_msgs::Point current_point;
-      current_point.x = Current_Point.at(0);
-      current_point.y = Current_Point.at(1);
-      current_point.z = Current_Point.at(2);
-      
-
-      if(p1.x == current_point.x && p1.y == current_point.y && p1.z == current_point.z)
-      {
-	staticPoint1 = false;
-      }
-      if(p2.x == current_point.x && p2.y == current_point.y && p2.z == current_point.z)
-      {
-	staticPoint2 = false;
-      }
-      if(p3.x == current_point.x && p3.y == current_point.y && p3.z == current_point.z)
-      {
-	staticPoint3 = false;
-      }
-      if(!staticPoint1 && !staticPoint2 && !staticPoint3)
-      {
-	break;
-      }
-    }
-    if(staticPoint1 && staticPoint2)
-    {
-      linePointsToDraw->push_back(p1);
-      linePointsToDraw->push_back(p2);
-    }
-    else
-    {
-      staticPointsToDraw->push_back(p1);
-      staticPointsToDraw->push_back(p2);
-    }
-    if(staticPoint1 && staticPoint2)
-    {
-      linePointsToDraw->push_back(p1);
-      linePointsToDraw->push_back(p3);
-    }
-    else
-    {
-      staticPointsToDraw->push_back(p1);
-      staticPointsToDraw->push_back(p3);
-    }
-    if(staticPoint1 && staticPoint2)
-    {
-      linePointsToDraw->push_back(p2);
-      linePointsToDraw->push_back(p3);    
-    }
-    else
-    {
-      staticPointsToDraw->push_back(p2);
-      staticPointsToDraw->push_back(p3);
-    }
+    //ROS_INFO("CURRENT POINT CONVERSION(%f, %f)", p1.y, p1.z);
+    
     
   }
 }
@@ -312,6 +265,7 @@ int main(int argc, char** argv) {
   loadLaunchParameters(nh_);
   while(ros::ok())
   {
+    ROS_INFO("size of current points %i", Current_Points.size());
     if(Current_Points.size()>=4)
     {
       RVIZPublisher(marker_pub, &Current_Points);

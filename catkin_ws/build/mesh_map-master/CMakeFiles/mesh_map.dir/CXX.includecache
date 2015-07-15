@@ -25,11 +25,17 @@ CGAL/Exact_predicates_inexact_constructions_kernel.h
 -
 CGAL/Triangulation_3.h
 -
+CGAL/Triangulation_2.h
+-
 CGAL/Delaunay_triangulation_3.h
+-
+CGAL/Delaunay_triangulation_2.h
 -
 CGAL/Polyhedron_3.h
 -
 CGAL/convex_hull_3_to_polyhedron_3.h
+-
+CGAL/Point_2.h
 -
 iostream
 -

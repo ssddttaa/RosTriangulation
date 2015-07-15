@@ -52,8 +52,11 @@ DelaunayTriangulation triangulation(&TriangulatedPoints);
 
 ros::Publisher marker_pub;
 
+float currentXMean(0.0);
+
 void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePointsToDraw, vector<geometry_msgs::Point> * staticPointsToDraw, vector<vector<float> > * tempCurrentPoints);
 void printEverything();
 void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurrentPoints);
 void loadLaunchParameters();
+void recalculateMean(vector<vector<float> > *staticPoints);
 #endif

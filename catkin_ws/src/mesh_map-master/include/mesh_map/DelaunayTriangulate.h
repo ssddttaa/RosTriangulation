@@ -64,8 +64,8 @@ class DelaunayTriangulation
             
             std::list<Point> VerticesToAdd;
             
-            Triangulation TriangulationOfPoints;
-	    Triangulation PreviousTriangulation;
+            Triangulation_2 TriangulationOfPoints;
+	    Triangulation_2 PreviousTriangulation;
     
             vector<float> *vertexBufferFloat;
             vector<float> *colorBufferFloat;

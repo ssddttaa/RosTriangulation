@@ -11,56 +11,37 @@
 
 //   CGALDelaunay::TriangulateUsingCGAL(vector<Vertex_handle> * DelaunayTriangulationVertices, vector<vector<float> > * PointsToBeInserted, Triangulation * T, vector<float> *bufferPointer, vector<float> *colorPointer, int*totalVertices);
 
-void CGALDelaunay::TriangulateUsingCGAL(vector<Vertex_handle> * DelaunayTriangulationVertices, vector<vector<float> > * PointsToBeInserted, Triangulation * T, vector<float> *bufferPointer, vector<float> *colorPointer, int*totalVertices)
+void CGALDelaunay::TriangulateUsingCGAL(vector<Vertex_handle> * DelaunayTriangulationVertices, vector<vector<float> > * PointsToBeInserted, Triangulation_2 * T, vector<float> *bufferPointer, vector<float> *colorPointer, int*totalVertices)
 {
   //CHECK TO SEE IF THE POINT TO ADD NEEDS TO BE EITHER MODIFIED OR ADDED
   //ROS_INFO("SIZE OF DELAUNAY VERTICES:%i", DelaunayTriangulationVertices->size());
   //ROS_INFO("SIZE OF VERTICES to be added:%i", PointsToBeInserted->size());
-  
-  
+  vector<Point_2> PointVector;
   for(int i = 0;i<PointsToBeInserted->size();i++)
   {
       vector<float> currentPoint = PointsToBeInserted->at(i);
-      T->insert(Point(currentPoint[0],currentPoint[1], currentPoint[2]));
+      Point_2 tempPoint = Point_2(currentPoint[1],currentPoint[2]);
+      PointVector.push_back(tempPoint);
   }
   
+  vector<Point_2>::iterator PointIteratorBegin = PointVector.begin();
+  vector<Point_2>::iterator PointIteratorEnd = PointVector.end();
+  T->insert(PointIteratorBegin, PointIteratorEnd);
   
-  //CONVERT DELAUNAY TRIANGULATION TO CONVEX HULL
-  Polyhedron_3 chull;
-  CGAL::convex_hull_3_to_polyhedron_3(*T, chull);
-  
+  Vertex_Circulator vc = T->incident_vertices(T->infinite_vertex()), done(vc);
   int count = 0;
+  do{
+    //ROS_INFO("CURRENT POINT(%f, %f)", vc->point().x(), vc->point().y());
+    vector<float> tempPointVec;
+    tempPointVec.push_back(vc->point().x());
+    tempPointVec.push_back(vc->point().y());
     
-    int vec3Order[] = {0,1,2};
+    bufferPointer->push_back(tempPointVec[0]);
+    bufferPointer->push_back(tempPointVec[1]);
     
-    vector<float> emptyVector;
-    *bufferPointer = emptyVector;
-    *colorPointer = emptyVector;
-    for( Polyhedron_3::Facet_iterator fit = chull.facets_begin(); fit != chull.facets_end(); ++fit){
-        vector<Point> currentFacet;
-	HF_circulator h = fit->facet_begin();
-	size_t order = 0;
-	vector<vector<float> > TriangleVec;
-	do
-	{
-	  Point currentPoint = h->vertex()->point();
-	  vector<float> tempVec;
-	  tempVec.push_back(currentPoint.x());
-	  tempVec.push_back(currentPoint.y());
-	  tempVec.push_back(currentPoint.z());
-	  TriangleVec.push_back(tempVec);
-	}
-	while(++h != fit->facet_begin());
-
-        BufferActions::addVec3ToBuffer(vec3Order, bufferPointer, &TriangleVec, 3);
-        BufferActions::addVec3ToBuffer(vec3Order, colorPointer, &TriangleVec, 3);
-        
-        count += 3;
-    }
-    
-    /*for(int i = 0;i<bufferPointer->size()/3;i++)
-    {
-      ROS_INFO("DELAUNAY VERTEX: (%f, %f, %f)", bufferPointer->at(i*3),bufferPointer->at((i*3)+1), bufferPointer->at((i*3)+2));
-    }*/
-    *totalVertices= count;
+    count++;
+  }
+  while(++vc!=done);
+  
+  *totalVertices = count;
 }
