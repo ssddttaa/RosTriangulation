@@ -27,21 +27,27 @@ void CGALDelaunay::TriangulateUsingCGAL(vector<Vertex_handle> * DelaunayTriangul
   vector<Point_2>::iterator PointIteratorBegin = PointVector.begin();
   vector<Point_2>::iterator PointIteratorEnd = PointVector.end();
   T->insert(PointIteratorBegin, PointIteratorEnd);
-  
-  Vertex_Circulator vc = T->incident_vertices(T->infinite_vertex()), done(vc);
   int count = 0;
-  do{
-    //ROS_INFO("CURRENT POINT(%f, %f)", vc->point().x(), vc->point().y());
-    vector<float> tempPointVec;
-    tempPointVec.push_back(vc->point().x());
-    tempPointVec.push_back(vc->point().y());
-    
-    bufferPointer->push_back(tempPointVec[0]);
-    bufferPointer->push_back(tempPointVec[1]);
-    
-    count++;
-  }
-  while(++vc!=done);
+  for(Edge_iterator ei = T->finite_edges_begin(); ei != T->finite_edges_end(); ++ei){
+    ROS_INFO("starting to iterate through the edges");
+	Triangulation_2::Face& f = *(ei->first);
+	int i = ei->second;
+	Vertex_handle vs = f.vertex(f.cw(i));
+	Vertex_handle vt = f.vertex(f.ccw(i));
+	Point_2 v1 = vs->point();
+	Point_2 v2 = vt->point();
+	
+	
+	bufferPointer->push_back(v1.x());
+	bufferPointer->push_back(v1.y());
+	
+	bufferPointer->push_back(v2.x());
+	bufferPointer->push_back(v2.y());
+	
+	ROS_INFO("POINTS PUSHING BACK:(%f, %f), (%f, %f)" , v1.x(), v1.y(), v2.x(), v2.y());
+	
+        count += 2;
+    }
   
   *totalVertices = count;
 }

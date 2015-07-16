@@ -30,15 +30,11 @@ typedef CGAL::Delaunay_triangulation_3<K>      Triangulation;
 typedef CGAL::Delaunay_triangulation_2<K>      Delaunay_2;
 typedef CGAL::Triangulation_2<K>               Triangulation_2;
 typedef CGAL::Point_2<K>		       Point_2;
-typedef Triangulation::Cell_handle    	       Cell_handle;
-typedef Triangulation::Vertex_handle 	       Vertex_handle;
-typedef Triangulation::Locate_type   	       Locate_type;
+typedef Triangulation_2::Vertex_handle 	       Vertex_handle;
 typedef Triangulation::Point          	       Point;
 typedef CGAL::Polyhedron_3<K>	     	       Polyhedron_3;
 typedef Triangulation_2::Vertex_circulator     Vertex_Circulator;
-typedef Polyhedron_3::Halfedge_around_facet_circulator HF_circulator;
-
-typedef CGAL::Triangulation_3<CGAL::Epick, CGAL::Default> Triangulation_3;
+typedef Triangulation_2::Edge_iterator Edge_iterator;
 
 using namespace std;
 

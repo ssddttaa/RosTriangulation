@@ -265,7 +265,7 @@ int main(int argc, char** argv) {
   loadLaunchParameters(nh_);
   while(ros::ok())
   {
-    ROS_INFO("size of current points %i", Current_Points.size());
+//     ROS_INFO("size of current points %i", Current_Points.size());
     if(Current_Points.size()>=4)
     {
       RVIZPublisher(marker_pub, &Current_Points);
