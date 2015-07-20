@@ -1,9 +1,11 @@
 <launch>
 
 	<group ns = "mesh_map">
+		<rosparam command = "load" file = "$(find mesh_map)/launchParameters.yaml"/>
+		
 		<node pkg = "mesh_map" type = "mesh_map" name = "mesh_map" output = "screen"/>
 
-		<node pkg="rosbag" type="play" name="player" output="screen" args="--clock /home/mrsl_student/git/catkin_ws/src/mesh_map-master/src/BoardFile.bag"/>
+		<node pkg="rosbag" type="play" name="player" output="screen" args="--clock /home/mrsl_student/git/catkin_ws/src/mesh_map/src/2015-07-07-16-53-06.bag"/>
 		
 		<node pkg = "rviz" type = "rviz" name = "rviz"/>
 	</group>
