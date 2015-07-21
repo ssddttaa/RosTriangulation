@@ -1,10 +1,5 @@
-//
-//  BufferActions.h
-//  Tutorials
-//
-//  Created by Sadat Shaik on 6/15/15.
-//
-//
+/*created by
+*Giuseppe Loianno and Sadat Shaik*/
 
 #ifndef __Tutorials__BufferActions__
 #define __Tutorials__BufferActions__

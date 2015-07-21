@@ -16,7 +16,6 @@ set(MESH_SOURCE_FILES
                 src/mesh_map_main.cpp
 		src/CGALDelaunayTriangulation.cpp
 		src/DelaunayTriangulate.cpp
-		src/ParseClass.cpp
  		src/BufferActions.cpp
 
 )
@@ -27,7 +26,6 @@ set(MESH_HEADER_FILES
                 include/mesh_map/mesh_map.h
 		include/mesh_map/CGALDelaunayTriangulation.h
 		include/mesh_map/DelaunayTriangulate.h
-		include/mesh_map/ParseClass.h
 		include/mesh_map/BufferActions.h
 		
 )

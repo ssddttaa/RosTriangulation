@@ -1,8 +1,5 @@
-//
-//  CGALDelaunayTriangulation.h
-//  Tutorials
-//
-//  Created by Sadat Shaik on 6/23/15.
+/*created by
+*Giuseppe Loianno and Sadat Shaik*/
 
 #ifndef __Tutorials__CGALDelaunayTriangulation__
 #define __Tutorials__CGALDelaunayTriangulation__
@@ -39,9 +36,7 @@ using namespace std;
 class CGALDelaunay
 {
     public:
-        static void TriangulateUsingCGAL(vector<Vertex_handle> * DelaunayTriangulationVertices, vector<vector<float> > * PointsToBeInserted, Triangulation * T, vector<float> *bufferPointer, vector<float> *colorPointer, int*totalVertices);
-	static void DelaunayTriangulateUsingCGAL(vector<vector<float> > *inputtedVertices, vector<vector<float> > *nodeArrayPointer, vector<float>* bufferPointer, vector<float> *colorPointer, int* numberOfVertices, std::list<Point> *VerticesToTriangulate, std::list<Point> * VerticesToAdd, int* verticesAlreadyAdded, Triangulation* T, int* totalVertices);
-  
+        static void TriangulateUsingCGAL(vector<vector<float> > * PointsToBeInserted, Triangulation * T, vector<float> *bufferPointer, int*totalVertices);
 };
 
 #endif

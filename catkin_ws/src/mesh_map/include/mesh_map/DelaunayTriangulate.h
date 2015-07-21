@@ -1,10 +1,5 @@
-//
-//  DelaunayTriangulate.h
-//  Tutorials
-//
-//  Created by Sadat Shaik on 6/22/15.
-//
-//
+/*created by
+*Giuseppe Loianno and Sadat Shaik*/
 
 #ifndef Tutorials_DelaunayTriangulate_h
 #define Tutorials_DelaunayTriangulate_h
@@ -20,8 +15,6 @@ using namespace std;
 
 #include "mesh_map/BufferActions.h"
 
-#include "mesh_map/ParseClass.h"
-
 #include "mesh_map/CGALDelaunayTriangulation.h"
 
 #include <unistd.h>
@@ -33,8 +26,8 @@ class DelaunayTriangulation
 {
         public:
             
-            std::vector<float> objects_vertex_buffers;
-            std::vector<float> objects_color_buffers;
+            vector<float> objects_vertex_buffers;
+            vector<float> objects_color_buffers;
             
             vector<float> g_vertex_buffer_data;
             vector<float> g_color_buffer_data;
@@ -60,9 +53,9 @@ class DelaunayTriangulation
     
             vector<float> viewOffset;
     
-            std::list<Point> VerticesToTriangulate;
+            list<Point> VerticesToTriangulate;
             
-            std::list<Point> VerticesToAdd;
+            list<Point> VerticesToAdd;
             
             Triangulation TriangulationOfPoints;
 	    Triangulation PreviousTriangulation;

@@ -1,13 +1,7 @@
-//
-//  BufferActions.cpp
-//  Tutorials
-//
-//  Created by Sadat Shaik on 6/15/15.
-//
-//
+/*created by
+*Giuseppe Loianno and Sadat Shaik*/
 
 #include "mesh_map/BufferActions.h"
-
 
 void BufferActions::addObjectToBuffer(float *vertexesToAdd, float *colorsToAdd, int numberOfVertices, vector<float> *vertex_buffer_pointer, vector<float> *color_buffer_pointer)
 {
