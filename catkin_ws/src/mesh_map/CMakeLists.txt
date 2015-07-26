@@ -9,6 +9,11 @@ find_package(cmake_modules REQUIRED)
 find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs image_transport cv_bridge tf pcl_ros)
 find_package(Eigen REQUIRED)
 
+find_package(Eigen 3.1.0) #(requires 3.1.0 or greater)
+if (EIGEN_FOUND)
+   include_directories( ${EIGEN_USE_FILE} )
+endif() 
+
 
 catkin_package(CATKIN_DEPENDS roscpp sensor_msgs image_transport cv_bridge tf)
 
@@ -47,6 +52,6 @@ link_directories(${PCL_LIBRARY_DIRS})
 ###########
 #set(VIO_LIBRARIES cvd lapack blas agast)
 add_executable(mesh_map ${VIO_HEADER_FILES} ${MESH_SOURCE_FILES})
-target_link_libraries(mesh_map ${OpenCV_LIBS} ${catkin_LIBRARIES} -lCGAL -lgmp)
+target_link_libraries(mesh_map ${OpenCV_LIBS} ${catkin_LIBRARIES} -lCGAL -lgmp -lmpfr)
 
 
