@@ -3,9 +3,9 @@
 
 #ifndef __Tutorials__CGALDelaunayTriangulation__
 #define __Tutorials__CGALDelaunayTriangulation__
+
 #include <stdio.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Polyhedron_3.h>
@@ -96,6 +96,19 @@ typedef CGAL::Polyhedron_3<Kernel> Polyhedron_3;
 typedef Polyhedron_3::Halfedge_around_facet_circulator HF_circulator;
 
 typedef pair<Point, Vector> Point_Vector_Pair;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 template <class Gt>
 struct Point_Pmap: public boost::put_get_helper<typename Gt::Point_3&, Point_Pmap<Gt> >

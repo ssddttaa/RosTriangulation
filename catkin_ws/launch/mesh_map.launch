@@ -5,7 +5,7 @@
 		
 		<node pkg = "mesh_map" type = "mesh_map" name = "mesh_map" output = "screen"/>
 
-		<node pkg="rosbag" type="play" name="player" output="screen" args="--clock /home/mrsl_student/git/catkin_ws/src/mesh_map/src/EntireRoom.bag"/>
+		<node pkg="rosbag" type="play" name="player" output="screen" args="--clock /home/mrsl_student/git/catkin_ws/src/mesh_map/src/BoardFile.bag"/>
 		
 		<node pkg = "rviz" type = "rviz" name = "rviz"/>
 	</group>
