@@ -25,6 +25,7 @@
 #include <cmath>
 
 #include <sstream>
+#include <string.h>
 using namespace std;
 
 vector<vector<float> > Current_Points;

@@ -200,11 +200,11 @@ void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurre
             cube_list.colors.push_back(tempColor);
         }
     }
-    marker_array.markers.resize(3);
+    marker_array.markers.resize(4);
     marker_array.markers[0] = line_list;
     marker_array.markers[1] = static_line_list;
-    //marker_array.markers[2] = triangle_list;
-    marker_array.markers[2] = cube_list;
+    marker_array.markers[2] = triangle_list;
+    //marker_array.markers[2] = cube_list;
     marker_pub.publish(marker_array);
 }
 void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePointsToDraw, vector<geometry_msgs::Point> *staticPointsToDraw, vector<vector<float> > * tempCurrentPoints)
@@ -281,7 +281,7 @@ void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePoint
 }
 void loadLaunchParameters(ros::NodeHandle nh_)
 {
-    ROS_INFO("lodaing launch parameters");
+    ROS_INFO("loading launch parameters");
     XmlRpc::XmlRpcValue v;
     ros::param::get("/mesh_map/bounding_box", v);
     boundingBoxMax = (int)(v);
