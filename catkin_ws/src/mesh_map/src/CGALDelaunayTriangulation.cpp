@@ -52,8 +52,8 @@ using Eigen::MatrixXd;*/
 void CGALDelaunay::TriangulateUsingCGAL(vector<vector<float> > * PointsToBeInserted, Triangulation * T, vector<float> *bufferPointer, int*totalVertices)
 {    
     FT sm_angle = 10.0; // Min triangle angle in degrees.
-    FT sm_radius = 1; // Max triangle size w.r.t. point set average spacing.
-    FT sm_distance = 0.1; // Surface Approximation error w.r.t. point set average spacing.
+    FT sm_radius = .1; // Max triangle size w.r.t. point set average spacing.
+    FT sm_distance = .375; // Surface Approximation error w.r.t. point set average spacing.
     // Reads the point set file in points[].
     // Note: read_xyz_points_and_normals() requires an iterator over points
     // + property maps to access each point's position and normal.

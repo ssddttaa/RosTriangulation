@@ -1,2 +1,0 @@
-mesh_map
--DCATKIN_DEVEL_PREFIX=/home/mrsl_student/git/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/mrsl_student/git/catkin_ws/install -G Unix Makefiles
