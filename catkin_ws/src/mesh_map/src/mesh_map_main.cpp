@@ -32,8 +32,7 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg)
             vector<float> tempVecDebug = Current_Points.at(getIndexOfID);
             Current_Points.at(getIndexOfID) = tempVec;
             tempVecDebug = All_Points.at(getIndexOfID+deletedPoints);
-            //All_Points.at(getIndexOfID+deletedPoints) = tempVec;
-            All_Points.at(getIndexOfID) = tempVec;
+            All_Points.at(getIndexOfID+deletedPoints) = tempVec;
             isStaticMap.at(getIndexOfID) = 0;
         }
     }
@@ -51,10 +50,10 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg)
             }
             if(!firstPointSet&&staticPointsToAdd.size()>=4)
             {
-//                Current_Points.erase(Current_Points.begin()+i);
-//                IDMap.erase(IDMap.begin()+i);
-//                isStaticMap.erase(isStaticMap.begin()+i);
-//                deletedPoints++;
+                Current_Points.erase(Current_Points.begin()+i);
+                IDMap.erase(IDMap.begin()+i);
+                isStaticMap.erase(isStaticMap.begin()+i);
+                deletedPoints++;
             }
         }
     }
@@ -69,6 +68,7 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg)
     }*/
     triangulation.addPointsToTriangulation(&All_Points, All_Points.size());
     RVIZPublisher(marker_pub, &tempCurrentPoints);
+            
 }
 void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurrentPoints)
 {

@@ -36,6 +36,10 @@
 #include <CGAL/property_map.h>
 #include <utility>
 #include <CGAL/Cartesian.h>
+#include <CGAL/Scale_space_surface_reconstruction_3.h>
+#include <CGAL/Scale_space_surface_reconstruction_3_impl.h>
+#include <string>
+#include <sstream>
 
 #include <algorithm>
 
@@ -97,18 +101,11 @@ typedef Polyhedron_3::Halfedge_around_facet_circulator HF_circulator;
 
 typedef pair<Point, Vector> Point_Vector_Pair;
 
+typedef vector<Point> Point_collection;
 
 
-
-
-
-
-
-
-
-
-
-
+typedef CGAL::Scale_space_surface_reconstruction_3< Kernel > Reconstruction;
+typedef Reconstruction::Triple_const_iterator                   Triple_iterator;
 
 template <class Gt>
 struct Point_Pmap: public boost::put_get_helper<typename Gt::Point_3&, Point_Pmap<Gt> >
