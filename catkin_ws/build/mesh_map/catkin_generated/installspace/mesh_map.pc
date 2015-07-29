@@ -3,6 +3,6 @@ prefix=/home/mrsl_student/git/catkin_ws/install
 Name: mesh_map
 Description: Description of mesh_map
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/mrsl_student/git/catkin_ws/install/include
 Libs: -L/home/mrsl_student/git/catkin_ws/install/lib 
-Requires: roscpp sensor_msgs image_transport cv_bridge tf
+Requires: roscpp sensor_msgs image_transport cv_bridge tf message_runtime

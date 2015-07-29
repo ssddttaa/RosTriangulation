@@ -271,6 +271,7 @@ mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /home/mrsl_stude
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /home/mrsl_student/git/catkin_ws/src/mesh_map/src/DelaunayTriangulate.cpp
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/XmlRpcDecl.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/XmlRpcValue.h
+mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/geometry_msgs/Point.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/advertise_options.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/advertise_service_options.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/assert.h
@@ -289,6 +290,7 @@ mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/message.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/message_event.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/message_forward.h
+mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/message_operations.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/message_traits.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/names.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /opt/ros/indigo/include/ros/node_handle.h
@@ -527,6 +529,8 @@ mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /usr/include/eig
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
 mesh_map/CMakeFiles/mesh_map.dir/src/DelaunayTriangulate.cpp.o: /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
 
+mesh_map/CMakeFiles/mesh_map.dir/src/mesh_map_main.cpp.o: /home/mrsl_student/git/catkin_ws/devel/include/mesh_map/Triangle.h
+mesh_map/CMakeFiles/mesh_map.dir/src/mesh_map_main.cpp.o: /home/mrsl_student/git/catkin_ws/devel/include/mesh_map/Triangulation.h
 mesh_map/CMakeFiles/mesh_map.dir/src/mesh_map_main.cpp.o: /home/mrsl_student/git/catkin_ws/src/mesh_map/include/mesh_map/BufferActions.h
 mesh_map/CMakeFiles/mesh_map.dir/src/mesh_map_main.cpp.o: /home/mrsl_student/git/catkin_ws/src/mesh_map/include/mesh_map/CGALDelaunayTriangulation.h
 mesh_map/CMakeFiles/mesh_map.dir/src/mesh_map_main.cpp.o: /home/mrsl_student/git/catkin_ws/src/mesh_map/include/mesh_map/DelaunayTriangulate.h

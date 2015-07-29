@@ -17,6 +17,8 @@ using namespace std;
 
 #include "mesh_map/CGALDelaunayTriangulation.h"
 
+#include <geometry_msgs/Point.h>
+
 #include <unistd.h>
 
 #include <stdio.h>
@@ -25,23 +27,8 @@ using namespace std;
 class DelaunayTriangulation
 {
         public:
-            
-            vector<float> objects_vertex_buffers;
-            vector<float> objects_color_buffers;
-            
             vector<float> g_vertex_buffer_data;
-            vector<float> g_color_buffer_data;
-            vector<float> g_cube_centers;
-            
-	    vector<Vertex_handle> DelaunayVertices;
-	    
-            vector<float> tetrahedraArray;
-            
-            vector<vector<float> > faceArray;
-            int numberOfTetrahedra = 0;
-            
-            vector<vector<float> > hullFaces;
-    
+
             vector<vector<float> > nodeArray;
             int numVertices;
             
@@ -49,28 +36,24 @@ class DelaunayTriangulation
             //tetgenio in, out;
             
             vector<float> *vertex_buffer_pointer;
-            vector<float> *vertex_color_pointer;
     
-            vector<float> viewOffset;
-    
-            list<Point> VerticesToTriangulate;
+            list<Point_3> VerticesToTriangulate;
             
-            list<Point> VerticesToAdd;
-            
-            Triangulation TriangulationOfPoints;
-	    Triangulation PreviousTriangulation;
+            list<Point_3> VerticesToAdd;
     
             vector<float> *vertexBufferFloat;
             vector<float> *colorBufferFloat;
 	    
-	    vector<float> *returnDelaunayVertices;
+	    vector<geometry_msgs::Point> *returnDelaunayVertices;
 	    
 	    vector<vector<float> > inputtedVertices;
             float currentViewScale;
     
             bool nowDraw = false;
-
-            DelaunayTriangulation(vector<float> * triangulatedVertices);
+            
+            Reconstruction *reconstruct;
+            
+            DelaunayTriangulation(vector<geometry_msgs::Point> *triangulatedVertices);
             void generateRandomPoints(vector<vector<float> > *nodeArray);
             void DelaunayTriangulate(vector<vector<float> > *nodeArray);
             void createAllPoints(vector<float> *vertex_buffer_pointer, vector<float> *vertex_color_pointer);

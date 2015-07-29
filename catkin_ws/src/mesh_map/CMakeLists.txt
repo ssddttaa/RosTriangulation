@@ -6,16 +6,27 @@ set(GCC_COVERAGE_COMPILE_FLAGS "-frounding-math")
 add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 
 find_package(cmake_modules REQUIRED)
-find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs image_transport cv_bridge tf pcl_ros)
+find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs image_transport cv_bridge tf pcl_ros geometry_msgs)
 find_package(Eigen REQUIRED)
+    if (EIGEN_FOUND)
+    add_definitions(-DCGAL_EIGEN3_ENABLED)
+endif()
+include_directories (BEFORE ../../../Installation/include) 
 
-find_package(Eigen 3.1.0) #(requires 3.1.0 or greater)
-if (EIGEN_FOUND)
-   include_directories( ${EIGEN_USE_FILE} )
-endif() 
+add_message_files(
+  FILES
+  Triangle.msg
+  Triangulation.msg
+)
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  geometry_msgs
+)
 
 
-catkin_package(CATKIN_DEPENDS roscpp sensor_msgs image_transport cv_bridge tf)
+catkin_package(CATKIN_DEPENDS roscpp sensor_msgs image_transport cv_bridge tf message_runtime)
+
 
 set(MESH_SOURCE_FILES
                 src/mesh_map_main.cpp
@@ -36,6 +47,7 @@ set(MESH_HEADER_FILES
 )
 
 find_package(OpenCV REQUIRED)
+find_package(message_generation REQUIRED)
 include_directories(
   include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
@@ -52,6 +64,8 @@ link_directories(${PCL_LIBRARY_DIRS})
 ###########
 #set(VIO_LIBRARIES cvd lapack blas agast)
 add_executable(mesh_map ${VIO_HEADER_FILES} ${MESH_SOURCE_FILES})
+add_executable(RVIZ_Publisher src/RVIZ_Publisher.cpp)
 target_link_libraries(mesh_map ${OpenCV_LIBS} ${catkin_LIBRARIES} -lCGAL -lgmp -lmpfr)
+target_link_libraries(RVIZ_Publisher ${catkin_LIBRARIES})
 
 

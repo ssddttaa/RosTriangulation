@@ -247,12 +247,12 @@ mesh_map_EXTERNAL_OBJECTS =
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/libxmlrpcpp.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/libtf2.so
-/home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/libroscpp_serialization.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/librosconsole.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/librosconsole_log4cxx.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/librosconsole_backend_interface.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /usr/lib/liblog4cxx.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /usr/lib/x86_64-linux-gnu/libboost_regex.so
+/home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/libroscpp_serialization.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/librostime.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /usr/lib/x86_64-linux-gnu/libboost_date_time.so
 /home/mrsl_student/git/catkin_ws/devel/lib/mesh_map/mesh_map: /opt/ros/indigo/lib/libcpp_common.so

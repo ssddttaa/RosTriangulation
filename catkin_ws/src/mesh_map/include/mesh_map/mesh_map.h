@@ -10,8 +10,10 @@
 #include <pcl_ros/point_cloud.h>
 #include <sensor_msgs/PointCloud.h>
 #include <memory>
+#include <mesh_map/Triangle.h>
+#include <mesh_map/Triangulation.h>
 
-#include "mesh_map/DelaunayTriangulate.h"
+#include <mesh_map/DelaunayTriangulate.h>
 
 #include <geometry_msgs/Point32.h>
 #include <ros/console.h>
@@ -47,14 +49,21 @@ int boundingBoxMax;
 
 int numberOfPointsInTriangulation(0);
 
-vector<float> TriangulatedPoints;
+vector<geometry_msgs::Point> TriangulatedPoints;
 
 DelaunayTriangulation triangulation(&TriangulatedPoints);
 
 ros::Publisher marker_pub;
+bool display_static_line_list(false);
+bool display_line_list(false);
+bool display_cube_list(false);
+bool display_triangle_list(false);
 
+double line_width;
+
+void createTriangulationFromTriangulatedPoints(mesh_map::Triangulation *triangulation);
 void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePointsToDraw, vector<geometry_msgs::Point> * staticPointsToDraw, vector<vector<float> > * tempCurrentPoints);
 void printEverything();
-void RVIZPublisher(ros::Publisher marker_pub, vector<vector<float> > * tempCurrentPoints);
+void RVIZPublisher(vector<vector<float> > * tempCurrentPoints);
 void loadLaunchParameters();
 #endif
