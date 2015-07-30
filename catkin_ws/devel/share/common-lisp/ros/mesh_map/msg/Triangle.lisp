@@ -54,10 +54,10 @@
   "25cdd87d1562bec196e1f54f80b6b393")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Triangle>)))
   "Returns full string definition for message of type '<Triangle>"
-  (cl:format cl:nil "geometry_msgs/Point[3] Triangle_Vertices~%~%================================================================================~%MSG: geometry_msgs/Point~%# This contains the position of a point in free space~%float64 x~%float64 y~%float64 z~%~%~%"))
+  (cl:format cl:nil "geometry_msgs/Point[3] Triangle_Vertices~%================================================================================~%MSG: geometry_msgs/Point~%# This contains the position of a point in free space~%float64 x~%float64 y~%float64 z~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Triangle)))
   "Returns full string definition for message of type 'Triangle"
-  (cl:format cl:nil "geometry_msgs/Point[3] Triangle_Vertices~%~%================================================================================~%MSG: geometry_msgs/Point~%# This contains the position of a point in free space~%float64 x~%float64 y~%float64 z~%~%~%"))
+  (cl:format cl:nil "geometry_msgs/Point[3] Triangle_Vertices~%================================================================================~%MSG: geometry_msgs/Point~%# This contains the position of a point in free space~%float64 x~%float64 y~%float64 z~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Triangle>))
   (cl:+ 0
      0 (cl:reduce #'cl:+ (cl:slot-value msg 'Triangle_Vertices) :key #'(cl:lambda (ele) (cl:declare (cl:ignorable ele)) (cl:+ (roslisp-msg-protocol:serialization-length ele))))

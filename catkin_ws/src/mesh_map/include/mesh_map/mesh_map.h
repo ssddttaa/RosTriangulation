@@ -59,7 +59,7 @@ bool display_line_list(false);
 bool display_cube_list(false);
 bool display_triangle_list(false);
 
-double line_width;
+double line_width(.05);
 
 void createTriangulationFromTriangulatedPoints(mesh_map::Triangulation *triangulation);
 void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePointsToDraw, vector<geometry_msgs::Point> * staticPointsToDraw, vector<vector<float> > * tempCurrentPoints);

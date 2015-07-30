@@ -2,9 +2,14 @@
 
 void RVIZ_Publisher_Callback(mesh_map::Triangulation TriangulatedPoints)
 {
+    Current_Triangulation = TriangulatedPoints;
+}
+
+void RVIZ_Publisher()
+{
     vector<geometry_msgs::Point> linePointsToDraw;
     vector<geometry_msgs::Point> staticPointsToDraw;
-    ConvertDelaunayFacesToLineVertices(&linePointsToDraw, &staticPointsToDraw, &TriangulatedPoints);
+    ConvertDelaunayFacesToLineVertices(&linePointsToDraw, &staticPointsToDraw, &Current_Triangulation);
     visualization_msgs::MarkerArray marker_array;
     int marker_array_size = 0;
     //BEGINNING OF REGULAR LINE LIST
@@ -91,9 +96,9 @@ void RVIZ_Publisher_Callback(mesh_map::Triangulation TriangulatedPoints)
         triangle_list.scale.y = 1.0;
         triangle_list.scale.z = 1.0;
         triangle_list.pose.orientation.w = triangle_list.pose.orientation.x = triangle_list.pose.orientation.y = triangle_list.pose.orientation.z = 0.0;
-        for(unsigned int i = 0; i<TriangulatedPoints.Triangulation_Triangles_Size;i++)
+        for(unsigned int i = 0; i<Current_Triangulation.Triangulation_Triangles_Size;i++)
         {
-            mesh_map::Triangle Temp_Triangle= TriangulatedPoints.Triangulation_Triangles[i];
+            mesh_map::Triangle Temp_Triangle= Current_Triangulation.Triangulation_Triangles[i];
             for(int j = 0;j<3;j++)
             {
                 geometry_msgs::Point currentPoint(Temp_Triangle.Triangle_Vertices[j]);
@@ -111,55 +116,11 @@ void RVIZ_Publisher_Callback(mesh_map::Triangulation TriangulatedPoints)
         }
         marker_array.markers[marker_array_size-1] = triangle_list;
     }
-    //END OF TRIANGLE LIST
-    //BEGINNING OF CUBE LIST
-    if(display_cube_list)
-    {
-        /*marker_array_size++;
-        marker_array.markers.resize(marker_array_size);
-        visualization_msgs::Marker cube_list;
-        cube_list.header.stamp = ros::Time::now();
-        cube_list.ns = "mesh_map";
-        cube_list.header.frame_id = "/world";
-        cube_list.action = visualization_msgs::Marker::ADD;
-        cube_list.id = 3;
-        cube_list.type = visualization_msgs::Marker::CUBE_LIST;
-        cube_list.lifetime = ros::Duration(500);
-        cube_list.color.a = 1.0;
-        cube_list.color.r = 1.0;
-        cube_list.color.g = 0.0;
-        cube_list.color.b = 0.0;
-        cube_list.scale.x = .05;
-        cube_list.scale.y = .05;
-        cube_list.scale.z = .05;
-        cube_list.pose.orientation.w = cube_list.pose.orientation.x = cube_list.pose.orientation.y = cube_list.pose.orientation.z = 0.0;
-        for(unsigned int i = 0;i<All_Points.size();i++)
-        {
-            vector<float> trianglePointsTemp;
-            trianglePointsTemp = All_Points.at(i);
-            geometry_msgs::Point currentPoint;
-            currentPoint.x = trianglePointsTemp.at(0);
-            currentPoint.y = trianglePointsTemp.at(1);
-            currentPoint.z = trianglePointsTemp.at(2);
-            std_msgs::ColorRGBA tempColor;
-            tempColor.a = 1.0;
-            tempColor.r = currentPoint.x;
-            tempColor.g = currentPoint.y;
-            tempColor.b = currentPoint.z;
-            if(!(abs(currentPoint.x) >boundingBoxMax|| abs(currentPoint.y) >boundingBoxMax|| abs(currentPoint.z)>boundingBoxMax))
-            {
-                cube_list.points.push_back(currentPoint);
-                cube_list.colors.push_back(tempColor);
-            }
-        }
-        marker_array.markers[marker_array_size-1] = cube_list;*/
-    }
     marker_pub.publish(marker_array);
 }
 
 void loadLaunchParameters(ros::NodeHandle nh_)
 {
-    ROS_INFO("loading launch parameters");
     XmlRpc::XmlRpcValue v;
     ros::param::get("/mesh_map/bounding_box", v);
     boundingBoxMax = (int)(v);
@@ -177,16 +138,14 @@ void loadLaunchParameters(ros::NodeHandle nh_)
 
 void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePointsToDraw, vector<geometry_msgs::Point> *staticPointsToDraw, mesh_map::Triangulation *TriangulatedPoints)
 {
-    vector<mesh_map::Triangle> Triangles_Vector = TriangulatedPoints->Triangulation_Triangles;
-    for(unsigned int i = 0 ;i<Triangles_Vector.size();i++)
+    for(unsigned int i = 0 ;i<TriangulatedPoints->Triangulation_Triangles.size();i++)
     {
-        mesh_map::Triangle Temp_Triangle = Triangles_Vector[i];
+        mesh_map::Triangle Temp_Triangle = TriangulatedPoints->Triangulation_Triangles[i];
         staticPointsToDraw->push_back(Temp_Triangle.Triangle_Vertices[0]);
         staticPointsToDraw->push_back(Temp_Triangle.Triangle_Vertices[1]);
         staticPointsToDraw->push_back(Temp_Triangle.Triangle_Vertices[2]);
     }
 }
-
 int main(int argc, char ** argv)
 {
     ROS_INFO("node created");
@@ -195,5 +154,9 @@ int main(int argc, char ** argv)
     loadLaunchParameters(nh_);
     marker_pub = nh_.advertise<visualization_msgs::MarkerArray>("visualization_marker_array", 10);
     ros::Subscriber RVIZ_Publisher_Data = nh_.subscribe("rviz_publisher_data", 100, &RVIZ_Publisher_Callback, ros::TransportHints().tcpNoDelay());
-    ros::spin();
+    while(ros::ok())
+    {
+        RVIZ_Publisher();
+        ros::spinOnce();
+    }
 }

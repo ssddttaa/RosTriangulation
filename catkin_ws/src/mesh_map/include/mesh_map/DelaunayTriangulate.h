@@ -13,8 +13,6 @@ using namespace std;
 
 #include <vector>
 
-#include "mesh_map/BufferActions.h"
-
 #include "mesh_map/CGALDelaunayTriangulation.h"
 
 #include <geometry_msgs/Point.h>

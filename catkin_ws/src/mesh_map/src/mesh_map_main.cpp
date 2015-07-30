@@ -44,10 +44,10 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg)
     mesh_map::Triangulation triangulation;
     createTriangulationFromTriangulatedPoints(&triangulation);
     marker_pub.publish(triangulation);
-    /*RVIZPublisher(&tempCurrentPoints);
+//    RVIZPublisher(&tempCurrentPoints);
     ofstream Graph_Data;
     Graph_Data.open("graph_data.txt", ios::out| ios::app);
-    Graph_Data<<All_Points.size()<<",";*/
+    Graph_Data<<All_Points.size()<<",";
     firstPointSet = false;
 }
 
@@ -80,15 +80,6 @@ int main(int argc, char** argv)
     //marker_pub = nh_.advertise<visualization_msgs::MarkerArray>("visualization_marker_array", 10);
     marker_pub = nh_.advertise<mesh_map::Triangulation>("rviz_publisher_data", 10);
     loadLaunchParameters(nh_);
-    while(ros::ok())
-    {
-        if(!firstPointSet)
-        {
-            mesh_map::Triangulation triangulation;
-            createTriangulationFromTriangulatedPoints(&triangulation);
-            marker_pub.publish(triangulation);
-        }
-        ros::spinOnce();    
-    }
+    ros::spin();
     return 0;
 };

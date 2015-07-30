@@ -31,10 +31,3 @@ void DelaunayTriangulation::addPointsToTriangulation(vector<vector<float> > * po
     
     *returnDelaunayVertices = Point_Array;
 }
-//This function triangulates the points using the library CGAL
-/*void DelaunayTriangulation::triangulateUsingCGAL(vector<vector<float> > *nodeArrayPointer, bool pointsDynamicallyInserted, int nodeArraySize)
-{
-    int VerticesAlreadyAdded(0);
-    CGALDelaunay::TriangulateUsingCGAL (nodeArrayPointer, &g_vertex_buffer_data, &VerticesAlreadyAdded);
-    *returnDelaunayVertices = g_vertex_buffer_data;
-}*/

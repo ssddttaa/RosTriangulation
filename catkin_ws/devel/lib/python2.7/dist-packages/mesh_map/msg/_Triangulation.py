@@ -16,7 +16,6 @@ int64 Triangulation_Triangles_Size
 ================================================================================
 MSG: mesh_map/Triangle
 geometry_msgs/Point[3] Triangle_Vertices
-
 ================================================================================
 MSG: geometry_msgs/Point
 # This contains the position of a point in free space

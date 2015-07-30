@@ -67,24 +67,6 @@ vector
 /home/mrsl_student/git/catkin_ws/src/mesh_map/src/RVIZ_Publisher.cpp
 mesh_map/RVIZ_Publisher.h
 -
-ros/console.h
--
-ros/ros.h
-/home/mrsl_student/git/catkin_ws/src/mesh_map/src/ros/ros.h
-std_msgs/String.h
-/home/mrsl_student/git/catkin_ws/src/mesh_map/src/std_msgs/String.h
-stdlib.h
--
-mesh_map/Triangle.h
--
-mesh_map/Triangulation.h
--
-visualization_msgs/Marker.h
--
-visualization_msgs/MarkerArray.h
--
-vector
--
 
 /opt/ros/indigo/include/XmlRpcDecl.h
 ros/macros.h

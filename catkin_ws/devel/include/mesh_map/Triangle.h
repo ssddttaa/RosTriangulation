@@ -139,7 +139,6 @@ struct Definition< ::mesh_map::Triangle_<ContainerAllocator> >
   static const char* value()
   {
     return "geometry_msgs/Point[3] Triangle_Vertices\n\
-\n\
 ================================================================================\n\
 MSG: geometry_msgs/Point\n\
 # This contains the position of a point in free space\n\

@@ -25,11 +25,11 @@ int boundingBoxMax(15.0);
 
 ros::Publisher marker_pub;
     
-
+mesh_map::Triangulation Current_Triangulation;
 using namespace std;
 
 void RVIZ_Publisher_Callback(mesh_map::Triangulation TriangulatedPoints);
-
+void RVIZ_Publisher();
 void ConvertDelaunayFacesToLineVertices(vector<geometry_msgs::Point> * linePointsToDraw, vector<geometry_msgs::Point> *staticPointsToDraw, mesh_map::Triangulation * TriangulatedPoints);
 void loadLaunchParameters();
 

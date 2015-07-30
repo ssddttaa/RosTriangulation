@@ -11,7 +11,6 @@ class Triangle(genpy.Message):
   _type = "mesh_map/Triangle"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """geometry_msgs/Point[3] Triangle_Vertices
-
 ================================================================================
 MSG: geometry_msgs/Point
 # This contains the position of a point in free space

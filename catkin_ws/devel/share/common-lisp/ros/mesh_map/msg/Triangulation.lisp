@@ -94,10 +94,10 @@
   "b189e15305ff1c86d99e101f793d861a")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Triangulation>)))
   "Returns full string definition for message of type '<Triangulation>"
-  (cl:format cl:nil "Triangle[] Triangulation_Triangles~%int64 Triangulation_Triangles_Size~%================================================================================~%MSG: mesh_map/Triangle~%geometry_msgs/Point[3] Triangle_Vertices~%~%================================================================================~%MSG: geometry_msgs/Point~%# This contains the position of a point in free space~%float64 x~%float64 y~%float64 z~%~%~%"))
+  (cl:format cl:nil "Triangle[] Triangulation_Triangles~%int64 Triangulation_Triangles_Size~%================================================================================~%MSG: mesh_map/Triangle~%geometry_msgs/Point[3] Triangle_Vertices~%================================================================================~%MSG: geometry_msgs/Point~%# This contains the position of a point in free space~%float64 x~%float64 y~%float64 z~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Triangulation)))
   "Returns full string definition for message of type 'Triangulation"
-  (cl:format cl:nil "Triangle[] Triangulation_Triangles~%int64 Triangulation_Triangles_Size~%================================================================================~%MSG: mesh_map/Triangle~%geometry_msgs/Point[3] Triangle_Vertices~%~%================================================================================~%MSG: geometry_msgs/Point~%# This contains the position of a point in free space~%float64 x~%float64 y~%float64 z~%~%~%"))
+  (cl:format cl:nil "Triangle[] Triangulation_Triangles~%int64 Triangulation_Triangles_Size~%================================================================================~%MSG: mesh_map/Triangle~%geometry_msgs/Point[3] Triangle_Vertices~%================================================================================~%MSG: geometry_msgs/Point~%# This contains the position of a point in free space~%float64 x~%float64 y~%float64 z~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Triangulation>))
   (cl:+ 0
      4 (cl:reduce #'cl:+ (cl:slot-value msg 'Triangulation_Triangles) :key #'(cl:lambda (ele) (cl:declare (cl:ignorable ele)) (cl:+ (roslisp-msg-protocol:serialization-length ele))))
