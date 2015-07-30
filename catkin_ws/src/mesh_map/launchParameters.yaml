@@ -3,6 +3,5 @@ static_frames_threshold: 5
 bagName : 'BoardFile.bag'
 display_static_line_list : true
 display_line_list : true
-display_cube_list : true
 display_triangle_list : true
-line_width : .05
+line_width : .005

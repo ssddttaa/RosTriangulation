@@ -16,9 +16,7 @@
 #include <vector>
 
 bool display_static_line_list(false);
-bool display_line_list(false);
 bool display_triangle_list(false);
-bool display_cube_list(false);
 float line_width(.05);
 
 int boundingBoxMax(15.0);

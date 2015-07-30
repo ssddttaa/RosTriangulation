@@ -36,21 +36,22 @@ void cloud_callback(const sensor_msgs::PointCloud::ConstPtr& msg)
             isStaticMap.at(getIndexOfID) = 0;
         }
     }
-    vector<vector<float> > staticPointsToAdd;
-    vector<vector<float> > tempCurrentPoints;
-    tempCurrentPoints = All_Points;
+    //Sending the points to the CGAL Triangulation function. The reason all points must be sent is because dynamic additions to the mesh
+    //are not allowed since the points are being interpolated to find the mesh. Therefore, the mesh must be created with the entire point set.
+    //Also, all of the points are sent because the scale space reconstruction library simply returns the index for each point of each tetrahedra
+    //not the point itself, thus to retrieve the points, all points must be sent.
     triangulation.addPointsToTriangulation(&All_Points, All_Points.size());
     
+    //Initializes triangulation message for sending to the RVIZ publisher
     mesh_map::Triangulation triangulation;
+    //Turns the returned data from the triangulation into actual triangles which are then sent to the RVIZ publisher node.
     createTriangulationFromTriangulatedPoints(&triangulation);
+    //This publishes the triangulation message to the RVIZ publisher
     marker_pub.publish(triangulation);
-//    RVIZPublisher(&tempCurrentPoints);
-    ofstream Graph_Data;
-    Graph_Data.open("graph_data.txt", ios::out| ios::app);
-    Graph_Data<<All_Points.size()<<",";
-    firstPointSet = false;
 }
 
+
+//Turns the data from the triangulation (TriangulatedPoints) into a triangulation message to be sent to the RVIZ publisher node
 void createTriangulationFromTriangulatedPoints(mesh_map::Triangulation *triangulation)
 {
     for(int i = 0;i<TriangulatedPoints.size()/3;i++)
@@ -63,7 +64,7 @@ void createTriangulationFromTriangulatedPoints(mesh_map::Triangulation *triangul
     }
     triangulation->Triangulation_Triangles_Size = TriangulatedPoints.size()/3;
 }
-
+//Loads the parameter from the launchParameters.yaml file
 void loadLaunchParameters(ros::NodeHandle nh_)
 {
     ROS_INFO("loading launch parameters");
@@ -71,13 +72,12 @@ void loadLaunchParameters(ros::NodeHandle nh_)
     ros::param::get("/mesh_map/static_frames_threshold", v);
     staticFramesThreshold = (int)(v);
 }
+//Initializes the subscriber and publisher, also calls the function to load the launch parameters.
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "mesh_map");
     ros::NodeHandle nh_("");
     ros::Subscriber subpointcloud_ = nh_.subscribe("/phone1/SQuad_demo_visualizer_total/vslam/current_map_points", 100, &cloud_callback, ros::TransportHints().tcpNoDelay());
-    //call all the callback
-    //marker_pub = nh_.advertise<visualization_msgs::MarkerArray>("visualization_marker_array", 10);
     marker_pub = nh_.advertise<mesh_map::Triangulation>("rviz_publisher_data", 10);
     loadLaunchParameters(nh_);
     ros::spin();
