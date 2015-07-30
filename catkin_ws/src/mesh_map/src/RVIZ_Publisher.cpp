@@ -20,6 +20,7 @@ void RVIZ_Publisher()
     //BEGINNING OF COLOR LINE LIST
     if(display_static_line_list)
     {
+        
         marker_array_size++;
         marker_array.markers.resize(marker_array_size);
         visualization_msgs::Marker static_line_list;
